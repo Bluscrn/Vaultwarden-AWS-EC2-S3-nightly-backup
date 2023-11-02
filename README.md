@@ -370,8 +370,8 @@ vw
     `chmod 600 /home/ec2-user/.resticpass`  
 1) Send the backup to AWS S3
     ```bash
-    sudo restic init -o s3.storage-class=STANDARD_IA -r 's3:https://s3.amazonaws.com/vaultwarden.euroglenn.me-backup' -p /home/ec2-user/.resticpass
-    sudo restic backup -o s3.storage-class=STANDARD_IA -r 's3:https://s3.amazonaws.com/vaultwarden.euroglenn.me-backup' -p /home/ec2-user/.resticpass /home/ec2-user/backup
+    sudo restic init -o s3.storage-class=STANDARD_IA -r 's3:https://s3.amazonaws.com/YOUR-BUCKET-NAME-HERE' -p /home/ec2-user/.resticpass
+    sudo restic backup -o s3.storage-class=STANDARD_IA -r 's3:https://s3.amazonaws.com/YOUR-BUCKET-NAME-HERE' -p /home/ec2-user/.resticpass /home/ec2-user/backup
     ```
 
 ### Automate the Backups  
@@ -396,7 +396,7 @@ vw
     "file:/home/ec2-user/vw/fail2ban/db/fail2ban.sqlite3?mode=ro" \
     "VACUUM INTO '/home/ec2-user/backup/fail2ban/db/fail2ban.sqlite3'"
 
-    restic backup -o s3.storage-class=STANDARD_IA -r 's3:https://s3.amazonaws.com/vaultwarden.euroglenn.me-backup' -p /home/ec2-user/.resticpass /home/ec2-user/backup
+    restic backup -o s3.storage-class=STANDARD_IA -r 's3:https://s3.amazonaws.com/YOUR-BUCKET-NAME-HERE' -p /home/ec2-user/.resticpass /home/ec2-user/backup
 
     rm -f /home/ec2-user/backup/vw-data/db.sqlite3
     rm -f /home/ec2-user/backup/fail2ban/db/fail2ban.sqlite3
@@ -421,7 +421,7 @@ vw
     # |  |  |  |  |
     # *  *  *  *  * user-name  command to be executed
     0  2  *  *  * root    /home/ec2-user/scripts/backup.sh
-    0  3  *  *  0 root    restic forget -r 's3:https://s3.amazonaws.com/vaultwarden.euroglenn.me-backup' -p /home/ec2-user/.resticpass --keep-last 7
+    0  3  *  *  0 root    restic forget -r 's3:https://s3.amazonaws.com/YOUR-BUCKET-NAME-HERE' -p /home/ec2-user/.resticpass --keep-last 7
 
    ```
    `sudo systemctl enable crond --now`  
